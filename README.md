@@ -1,4 +1,5 @@
 dokango
 =======
 
-A Go interface to dokan
+A Go interface to dokan (http://dokan-dev.net/en/)
+
