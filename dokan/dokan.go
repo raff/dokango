@@ -1,9 +1,7 @@
 package dokan
 
-import (
-	"syscall"
-	"unsafe"
-)
+import "unsafe"
+import "syscall"
 
 var (
 	mod = syscall.NewLazyDLL("dokan.dll")
@@ -16,7 +14,39 @@ var (
 	fn_DokanResetTimeout     = mod.NewProc("DokanResetTimeout")
 )
 
-func DokanMain() {
+const (
+	DOKAN_SUCCESS              = 0
+	DOKAN_ERROR                = -1 // General Error
+	DOKAN_DRIVE_LETTER_ERROR   = -2 // Bad Drive letter
+	DOKAN_DRIVER_INSTALL_ERROR = -3 // Can't install driver
+	DOKAN_START_ERROR          = -4 // Driver something wrong
+	DOKAN_MOUNT_ERROR          = -5 // Can't assign a drive letter or mount point
+	DOKAN_MOUNT_POINT_ERROR    = -6 // Mount point is invalid
+)
+
+type DokanOptions struct {
+	Version      uint16
+	ThreadCount  uint16
+	DebugMode    bool
+	UseStdErr    bool
+	UseAltStream bool
+	UseKeepAlive bool
+	NetworkDrive bool
+	VolumeLabel  string
+	MountPoint   string
+}
+
+type DokanOperations struct {
+}
+
+func DokanMain(options DokanOptions, operations DokanOperations) int {
+	if len(options.VolumeLabel) == 0 {
+		options.VolumeLabel = "DOKAN"
+	}
+
+	//ret, _, _ := fn_DokanMain(dokanOptions, dokanOperations)
+	ret := 0
+	return int(ret)
 }
 
 func DokanVersion() uint {
